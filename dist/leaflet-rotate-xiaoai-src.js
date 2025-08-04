@@ -60,23 +60,23 @@
          * @param {L.Point} pivot
          * @param {Number} scale
          */
-        // setPosition: function (el, point, bearing, pivot, scale) {
-        //     console.log("setPosition", { el, point, bearing, pivot, scale });
-        //     if (!bearing) {
-        //         return domUtilProto.setPosition.apply(this, arguments);
-        //     }
+        setPosition: function (el, point, bearing, pivot, scale) {
+            console.log("setPosition", { el, point, bearing, pivot, scale });
+            if (!bearing) {
+                return domUtilProto.setPosition.apply(this, arguments);
+            }
 
-        //     /*eslint-disable */
-        //     el._leaflet_pos = point;
-        //     /*eslint-enable */
+            /*eslint-disable */
+            el._leaflet_pos = point;
+            /*eslint-enable */
 
-        //     if (L.Browser.any3d) {
-        //         L.DomUtil.setTransform(el, point, scale, bearing, pivot);
-        //     } else {
-        //         el.style.left = point.x + "px";
-        //         el.style.top = point.y + "px";
-        //     }
-        // },
+            if (L.Browser.any3d) {
+                L.DomUtil.setTransform(el, point, scale, bearing, pivot);
+            } else {
+                el.style.left = point.x + "px";
+                el.style.top = point.y + "px";
+            }
+        },
 
         /**
          * @constant radians = degrees × π/180°
