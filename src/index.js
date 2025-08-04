@@ -54,7 +54,7 @@ export * from "./map/handler/ContainerMutation";
 // export * from "./map/handler/TouchGestures";
 // export * from './map/handler/TouchRotate';
 // export * from "./map/handler/ShiftKeyRotate";
-export * from "./map/handler/TouchZoom";
+// export * from "./map/handler/TouchZoom";
 
 // custom controls
 export * from "./control/Rotate";
