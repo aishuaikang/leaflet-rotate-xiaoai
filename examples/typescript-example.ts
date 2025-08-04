@@ -27,7 +27,7 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 }).addTo(map);
 
 // 手动创建旋转控件
-const rotateControl: L.Control.Rotate = L.control.rotate({
+const rotateControl = L.control.rotate({
     position: "topright",
     closeOnZeroBearing: false,
 });
