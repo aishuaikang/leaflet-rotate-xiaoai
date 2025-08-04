@@ -491,28 +491,6 @@
 
             /** @TODO use markerProto._setPos */
             if (this._icon) {
-                console.log(
-                    this.options.rotationAngle,
-                    this.options.rotationOrigin
-                );
-                if (this.options.rotationAngle > 0 && this.options.rotationOrigin) {
-                    this._icon.style[L.DomUtil.TRANSFORM + "Origin"] =
-                        this.options.rotationOrigin;
-
-                    console.log(bearing, this.options.rotationAngle, bearing);
-                    bearing += this.options.rotationAngle;
-
-                    // if (L.DomUtil.TRANSFORM === "msTransform") {
-                    //     // for IE 9, use the 2D rotation
-                    //     // this._icon.style[L.DomUtil.TRANSFORM] =
-                    //     //     "rotate(" + this.options.rotationAngle + "deg)";
-                    // } else {
-                    //     // for modern browsers, prefer the 3D accelerated version
-                    //     // this._icon.style[L.DomUtil.TRANSFORM] +=
-                    //     //     " rotateZ(" + this.options.rotationAngle + "deg)";
-                    // }
-                }
-
                 L.DomUtil.setPosition(
                     this._icon,
                     pos,
