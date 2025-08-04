@@ -68,9 +68,11 @@ var MarkerDrag = {
         e.oldLatLng = this._oldLatLng;
 
         /** @TODO use markerDragProto._onDrag */
-        if (rotated_marker) marker.setLatLng(latlng);
-        // use `setLatLng` to presisit rotation. low efficiency
-        else marker.fire("move", e); // `setLatLng` w啊啥的ill trig 'move' event. we imitate here.
+        if (rotated_marker)
+            marker.setLatLng(
+                latlng
+            ); // use `setLatLng` to presisit rotation. low efficiency
+        else marker.fire("move", e); // `setLatLng` will trig 'move' event. we imitate here.
 
         // @event drag: Event
         // Fired repeatedly while the user drags the marker.
@@ -120,44 +122,44 @@ L.Marker.include({
         return ret;
     },
 
-    // _setPos: function (pos) {
-    //     /** @TODO use markerProto._setPos */
-    //     if (this._map._rotate) {
-    //         pos = this._map.rotatedPointToMapPanePoint(pos);
-    //     }
+    _setPos: function (pos) {
+        /** @TODO use markerProto._setPos */
+        if (this._map._rotate) {
+            pos = this._map.rotatedPointToMapPanePoint(pos);
+        }
 
-    //     /** @TODO use markerProto._setPos */
-    //     var bearing = this.options.rotation || 0;
-    //     if (this.options.rotateWithView) {
-    //         bearing += this._map._bearing;
-    //     }
+        /** @TODO use markerProto._setPos */
+        var bearing = this.options.rotation || 0;
+        if (this.options.rotateWithView) {
+            bearing += this._map._bearing;
+        }
 
-    //     /** @TODO use markerProto._setPos */
-    //     if (this._icon) {
-    //         L.DomUtil.setPosition(
-    //             this._icon,
-    //             pos,
-    //             bearing,
-    //             pos,
-    //             this.options.scale
-    //         );
-    //     }
+        /** @TODO use markerProto._setPos */
+        if (this._icon) {
+            L.DomUtil.setPosition(
+                this._icon,
+                pos,
+                bearing,
+                pos,
+                this.options.scale
+            );
+        }
 
-    //     /** @TODO use markerProto._setPos */
-    //     if (this._shadow) {
-    //         L.DomUtil.setPosition(
-    //             this._shadow,
-    //             pos,
-    //             bearing,
-    //             pos,
-    //             this.options.scale
-    //         );
-    //     }
+        /** @TODO use markerProto._setPos */
+        if (this._shadow) {
+            L.DomUtil.setPosition(
+                this._shadow,
+                pos,
+                bearing,
+                pos,
+                this.options.scale
+            );
+        }
 
-    //     this._zIndex = pos.y + this.options.zIndexOffset;
+        this._zIndex = pos.y + this.options.zIndexOffset;
 
-    //     this._resetZIndex();
-    // },
+        this._resetZIndex();
+    },
 
     // _updateZIndex: function(offset) {
     //     if (!this._map._rotate) {
