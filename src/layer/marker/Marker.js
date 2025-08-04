@@ -68,10 +68,8 @@ var MarkerDrag = {
         e.oldLatLng = this._oldLatLng;
 
         /** @TODO use markerDragProto._onDrag */
-        if (rotated_marker)
-            marker.setLatLng(
-                latlng
-            ); // use `setLatLng` to presisit rotation. low efficiency
+        if (rotated_marker) marker.setLatLng(latlng);
+        // use `setLatLng` to presisit rotation. low efficiency
         else marker.fire("move", e); // `setLatLng` will trig 'move' event. we imitate here.
 
         // @event drag: Event
@@ -136,6 +134,23 @@ L.Marker.include({
 
         /** @TODO use markerProto._setPos */
         if (this._icon) {
+            if (this.options.rotationAngle && this.options.rotationOrigin) {
+                this._icon.style[L.DomUtil.TRANSFORM + "Origin"] =
+                    this.options.rotationOrigin;
+
+                bearing += this.options.rotationAngle;
+
+                // if (L.DomUtil.TRANSFORM === "msTransform") {
+                //     // for IE 9, use the 2D rotation
+                //     // this._icon.style[L.DomUtil.TRANSFORM] =
+                //     //     "rotate(" + this.options.rotationAngle + "deg)";
+                // } else {
+                //     // for modern browsers, prefer the 3D accelerated version
+                //     // this._icon.style[L.DomUtil.TRANSFORM] +=
+                //     //     " rotateZ(" + this.options.rotationAngle + "deg)";
+                // }
+            }
+
             L.DomUtil.setPosition(
                 this._icon,
                 pos,
