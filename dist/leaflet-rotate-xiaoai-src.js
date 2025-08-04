@@ -317,6 +317,205 @@
     });
 
     /**
+     * @external L.Icon
+     * 
+     * @see https://github.com/Leaflet/Leaflet/tree/v1.9.3/src/layer/marker/Icon.js
+     */
+
+    L.extend({}, L.Icon.prototype);
+
+    L.Icon.include({
+
+        _setIconStyles: function(img, name) {
+            var options = this.options;
+            var sizeOption = options[name + 'Size'];
+
+            if (typeof sizeOption === 'number') {
+                sizeOption = [sizeOption, sizeOption];
+            }
+
+            var size = L.point(sizeOption),
+                anchor = L.point(name === 'shadow' && options.shadowAnchor || options.iconAnchor ||
+                    size && size.divideBy(2, true));
+
+            img.className = 'leaflet-marker-' + name + ' ' + (options.className || '');
+
+            if (anchor) {
+                img.style.marginLeft = (-anchor.x) + 'px';
+                img.style.marginTop = (-anchor.y) + 'px';
+                /** @TODO use iconProto._setIconStyles */
+                img.style[L.DomUtil.TRANSFORM + "Origin"] = anchor.x + "px " + anchor.y + "px 0px";
+            }
+
+            if (size) {
+                img.style.width = size.x + 'px';
+                img.style.height = size.y + 'px';
+            }
+        },
+
+    });
+
+    /**
+     * @external L.Marker
+     * @external L.Handler.MarkerDrag
+     * 
+     * @see https://github.com/Leaflet/Leaflet/tree/v1.9.3/src/layer/marker/Marker.js
+     * @see https://github.com/Leaflet/Leaflet/tree/v1.9.3/src/layer/marker/Marker.Drag.js
+     * @see https://github.com/Leaflet/Leaflet/tree/v1.9.3/src/dom/Draggable.js
+     */
+
+    const markerProto = L.extend({}, L.Marker.prototype);
+
+    L.Marker.mergeOptions({
+
+        /**
+         * Rotation of this marker in rad
+         * 
+         * @type {Number}
+         */
+        rotation: 0,
+
+        /**
+         * Rotate this marker when map rotates
+         * 
+         * @type {Boolean}
+         */
+        rotateWithView: false,
+
+        /**
+         * Scale of the marker icon
+         * 
+         * @type {Number}
+         */
+        scale: undefined,
+
+    });
+
+    var markerDragProto; // retrived at runtime (see below: L.Marker::_initInteraction())
+
+    var MarkerDrag = {
+
+        // _onDragStart: function() {
+        //     if (!this._marker._map._rotate) {
+        //         return markerDragProto._onDragStart.apply(this, arguments);
+        //     }
+        //     this._draggable.updateMapBearing(this._marker._map._bearing);
+        // },
+
+        _onDrag: function(e) {
+            var marker = this._marker,
+                /** @TODO use markerDragProto._onDrag */
+                rotated_marker = marker.options.rotation || marker.options.rotateWithView,
+                shadow = marker._shadow,
+                iconPos = L.DomUtil.getPosition(marker._icon);
+
+            /** @TODO use markerDragProto._onDrag */
+            // update shadow position
+            if (!rotated_marker && shadow) {
+                L.DomUtil.setPosition(shadow, iconPos);
+            }
+
+            /** @TODO use markerDragProto._onDrag */
+            if (marker._map._rotate) {
+                // Reverse calculation from mapPane coordinates to rotatePane coordinates
+                iconPos = marker._map.mapPanePointToRotatedPoint(iconPos);
+            }
+            var latlng = marker._map.layerPointToLatLng(iconPos);
+
+            marker._latlng = latlng;
+            e.latlng = latlng;
+            e.oldLatLng = this._oldLatLng;
+
+            /** @TODO use markerDragProto._onDrag */
+            if (rotated_marker) marker.setLatLng(latlng); // use `setLatLng` to presisit rotation. low efficiency
+            else marker.fire('move', e); // `setLatLng` will trig 'move' event. we imitate here.
+
+            // @event drag: Event
+            // Fired repeatedly while the user drags the marker.
+            marker
+                .fire('drag', e);
+        },
+
+        _onDragEnd: function(e) {
+            if (this._marker._map._rotate) {
+                this._marker.update();
+            }
+            markerDragProto._onDragEnd.apply(this, arguments);
+        },
+
+    };
+
+    L.Marker.include({
+
+        /**
+         * Update L.Marker anchor position after the map
+         * is moved by calling `map.setBearing(theta)`
+         * 
+         * @listens L.Map~rotate
+         */
+        getEvents: function() {
+            return L.extend(markerProto.getEvents.apply(this, arguments), { rotate: this.update });
+        },
+
+        _initInteraction: function() {
+            var ret = markerProto._initInteraction.apply(this, arguments);
+            if (this.dragging && this.dragging.enabled() && this._map && this._map._rotate) {
+                // L.Handler.MarkerDrag is used internally by L.Marker to make the markers draggable
+                markerDragProto = markerDragProto || Object.getPrototypeOf(this.dragging);
+                this.dragging.disable();
+                Object.assign(this.dragging, {
+                    // _onDragStart: MarkerDrag._onDragStart.bind(this.dragging),
+                    _onDrag: MarkerDrag._onDrag.bind(this.dragging),
+                    _onDragEnd: MarkerDrag._onDragEnd.bind(this.dragging),
+                });
+                this.dragging.enable();
+            }
+            return ret;
+        },
+
+        _setPos: function(pos) {
+
+            /** @TODO use markerProto._setPos */
+            if (this._map._rotate) {
+                pos = this._map.rotatedPointToMapPanePoint(pos);
+            }
+
+            /** @TODO use markerProto._setPos */
+            var bearing = this.options.rotation || 0;
+            if (this.options.rotateWithView) {
+                bearing += this._map._bearing;
+            }
+
+            /** @TODO use markerProto._setPos */
+            if (this._icon) {
+                L.DomUtil.setPosition(this._icon, pos, bearing, pos, this.options.scale);
+            }
+
+            /** @TODO use markerProto._setPos */
+            if (this._shadow) {
+                L.DomUtil.setPosition(this._shadow, pos, bearing, pos, this.options.scale);
+            }
+
+            this._zIndex = pos.y + this.options.zIndexOffset;
+
+            this._resetZIndex();
+        },
+
+        // _updateZIndex: function(offset) {
+        //     if (!this._map._rotate) {
+        //         return markerProto._updateZIndex.apply(this, arguments);
+        //     }
+        //     this._icon.style.zIndex = Math.round(this._zIndex + offset);
+        // },
+
+        setRotation: function(rotation) {
+            this.options.rotation = rotation;
+            this.update();
+        },
+
+    });
+
+    /**
      * @external L.GridLayer
      * 
      * @see https://github.com/Leaflet/Leaflet/tree/v1.9.3/src/layer/tile/GridLayer.js
@@ -349,6 +548,128 @@
             }
 
             return this._map._getNewPixelBounds(center, this._tileZoom);
+        },
+
+    });
+
+    /**
+     * @external L.Renderer
+     * 
+     * @see https://github.com/Leaflet/Leaflet/tree/v1.9.3/src/layer/vector/Renderer.js
+     */
+
+    const rendererProto = L.extend({}, L.Renderer.prototype);
+
+    L.Renderer.include({
+
+        /**
+         * Redraw L.Canvas and L.SVG renderer bounds after the
+         * map is moved by just calling `map.setBearing(theta)`
+         * 
+         * @listens L.Map~rotate
+         */
+        getEvents: function() {
+            return L.extend(rendererProto.getEvents.apply(this, arguments), { rotate: this._update });
+        },
+
+        /**
+         * Fix for `map.flyTo()` when `false === map.options.zoomAnimation`
+         * 
+         * @see https://github.com/Leaflet/Leaflet/pull/8794
+         */
+        onAdd: function() {
+            rendererProto.onAdd.apply(this, arguments);
+            if (L.version <= "1.9.3") {
+                // always keep transform-origin as 0 0
+                this._container.classList.add('leaflet-zoom-animated');
+            }
+        },
+
+        /**
+         * @FIXME layer drifts on `map.setZoom()` (eg. zoom during animation)
+         * 
+         * the main cause seems to be related to `this._updateTransform(path._center, path._zoom))`
+         * and `this._topLeft = this._map.layerPointToLatLng(this._bounds.min);`
+         * 
+         * @example
+         *   map.setZoom(2);
+         *   path._renderer._update();
+         *   path._renderer._updateTransform(path._renderer._center, path._renderer._zoom);
+         * 
+         * @see https://github.com/Leaflet/Leaflet/pull/8794
+         * @see https://github.com/Leaflet/Leaflet/pull/8103
+         * @see https://github.com/Leaflet/Leaflet/issues/7466
+         * 
+         * @TODO rechek this changes from leaflet@v1.9.3
+         * 
+         * @see https://github.com/Leaflet/Leaflet/compare/v1.7.0...v1.9.3
+         */
+        _updateTransform: function(center, zoom) {
+            if (!this._map._rotate) {
+                return rendererProto._updateTransform.apply(this, arguments);
+            }
+            /**
+             * @FIXME see path._renderer._reset();
+             */
+            var scale = this._map.getZoomScale(zoom, this._zoom),
+                offset = this._map._latLngToNewLayerPoint(this._topLeft, zoom, center);
+
+            L.DomUtil.setTransform(this._container, offset, scale);
+            
+        },
+
+        // getEvents() {
+        //     const events = {
+        //         viewreset: this._reset,
+        //         zoom: this._onZoom,
+        //         moveend: this._update,
+        //         zoomend: this._onZoomEnd
+        //     };
+        //     if (this._zoomAnimated) {
+        //         events.zoomanim = this._onAnimZoom;
+        //     }
+        //     return events;
+        // },
+
+        // _onAnimZoom(ev) {
+        //     this._updateTransform(ev.center, ev.zoom);
+        // },
+
+    	// _onZoom() {
+        //     this._updateTransform(this._map.getCenter(), this._map.getZoom());
+    	// },
+
+        // _onZoomEnd() {
+        //     for (const id in this._layers) {
+        //         this._layers[id]._project();
+        //     }
+        // },
+
+        // _reset() {
+        //     this._update();
+        //     this._updateTransform(this._center, this._zoom);
+
+        //     for (const id in this._layers) {
+        //         this._layers[id]._reset();
+        //     }
+        // },
+
+        // _updatePaths() {
+        //     for (const id in this._layers) {
+        //         this._layers[id]._update();
+        //     }
+        // },
+
+        _update: function() {
+            if (!this._map._rotate) {
+                return rendererProto._update.apply(this, arguments);
+            }
+            // Update pixel bounds of renderer container (for positioning/sizing/clipping later)
+            // Subclasses are responsible of firing the 'update' event.
+            this._bounds = this._map._getPaddedPixelBounds(this.options.padding);
+            this._topLeft = this._map.layerPointToLatLng(this._bounds.min);
+            this._center = this._map.getCenter();
+            this._zoom = this._map.getZoom();
         },
 
     });
