@@ -28,7 +28,7 @@
 // export * from './core/index';
 
 // dom
-export * from "./dom/DomUtil";
+// export * from "./dom/DomUtil";
 export * from "./dom/Draggable";
 
 // geometry
@@ -45,7 +45,7 @@ export * from "./layer/Tooltip";
 // export * from "./layer/marker/Icon";
 // export * from "./layer/marker/Marker";
 export * from "./layer/tile/GridLayer";
-export * from "./layer/vector/Renderer";
+// export * from "./layer/vector/Renderer";
 
 // map
 export * from "./map/Map";
