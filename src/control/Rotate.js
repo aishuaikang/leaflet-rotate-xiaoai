@@ -131,11 +131,11 @@ L.Control.Rotate = L.Control.extend({
 
         // Locked mode
         // else {
-        map.compassBearing.disable();
+        // map.compassBearing.disable();
         map.setBearing(0);
-        if (this.options.closeOnZeroBearing) {
-            map.touchRotate.enable();
-        }
+        // if (this.options.closeOnZeroBearing) {
+        //     map.touchRotate.enable();
+        // }
         // }
         this._restyle();
     },
@@ -151,6 +151,7 @@ L.Control.Rotate = L.Control.extend({
 
             if (bearing && this.options.closeOnZeroBearing) {
                 this._container.style.display = "block";
+                this._link.style.backgroundColor = "orange";
             }
 
             // // Compass mode
@@ -165,7 +166,7 @@ L.Control.Rotate = L.Control.extend({
 
             // // Locked mode
             // else {
-            this._link.style.backgroundColor = "grey";
+            // this._link.style.backgroundColor = "grey";
             if (0 === bearing && this.options.closeOnZeroBearing) {
                 this._container.style.display = "none";
             }

@@ -40,9 +40,7 @@ const map: L.Map = L.map("map", {
     rotate: true, // 启用旋转功能
     bearing: 0, // 初始方向角
     rotateControl: true, // 启用旋转控件
-    touchRotate: true, // 启用触摸旋转
     shiftKeyRotate: true, // 启用Shift键旋转
-    compassBearing: false, // 禁用指南针跟随
 });
 
 // 添加瓦片图层
@@ -85,15 +83,6 @@ map.rotateTo(90, {
 ## 处理器控制
 
 ```typescript
-// 触摸旋转处理器
-map.touchRotate.enable();
-map.touchRotate.disable();
-const isEnabled: boolean = map.touchRotate.enabled();
-
-// 指南针方向处理器
-map.compassBearing.enable();
-map.compassBearing.disable();
-
 // Shift键旋转处理器
 map.shiftKeyRotate.enable();
 map.shiftKeyRotate.disable();
@@ -131,8 +120,6 @@ map.on("rotateend", () => {
 ### Map 扩展属性
 
 -   `rotateControl?: Control.Rotate` - 旋转控件实例
--   `touchRotate: Map.TouchRotate` - 触摸旋转处理器
--   `compassBearing: Map.CompassBearing` - 指南针方向处理器
 -   `shiftKeyRotate: Map.ShiftKeyRotate` - Shift 键旋转处理器
 
 ### MapOptions 扩展
@@ -140,9 +127,7 @@ map.on("rotateend", () => {
 -   `rotate?: boolean` - 是否启用旋转功能
 -   `bearing?: number` - 初始方向角
 -   `rotateControl?: boolean | Control.RotateOptions` - 旋转控件配置
--   `touchRotate?: boolean` - 是否启用触摸旋转
 -   `shiftKeyRotate?: boolean` - 是否启用 Shift 键旋转
--   `compassBearing?: boolean` - 是否启用指南针跟随
 
 ## 注意事项
 

@@ -16,9 +16,6 @@ const map: L.Map = L.map("map", {
         // 旋转控件选项
         closeOnZeroBearing: true,
     },
-    touchRotate: true, // 启用触摸旋转
-    shiftKeyRotate: true, // 启用Shift键旋转
-    compassBearing: false, // 禁用指南针跟随
 });
 
 // 添加瓦片图层

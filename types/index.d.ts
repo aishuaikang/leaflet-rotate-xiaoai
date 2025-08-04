@@ -133,12 +133,12 @@ declare module "leaflet" {
         constructor(map: L.Map);
     }
 
-    /**
-     * 触摸缩放处理器的旋转扩展
-     */
-    class TouchZoom extends Handler {
-        constructor(map: L.Map);
-    }
+    // /**
+    //  * 触摸缩放处理器的旋转扩展
+    //  */
+    // class TouchZoom extends Handler {
+    //     constructor(map: L.Map);
+    // }
 
     interface MapOptions {
         /**
@@ -159,29 +159,29 @@ declare module "leaflet" {
          */
         bearing?: number;
 
-        /**
-         * 是否可以通过双指旋转手势旋转地图
-         * @default false
-         */
-        touchRotate?: boolean;
+        // /**
+        //  * 是否可以通过双指旋转手势旋转地图
+        //  * @default false
+        //  */
+        // touchRotate?: boolean;
 
-        /**
-         * 是否启用触摸手势
-         * @default false
-         */
-        touchGestures?: boolean;
+        // /**
+        //  * 是否启用触摸手势
+        //  * @default false
+        //  */
+        // touchGestures?: boolean;
 
-        /**
-         * 是否启用Shift键旋转
-         * @default true
-         */
-        shiftKeyRotate?: boolean;
+        // /**
+        //  * 是否启用Shift键旋转
+        //  * @default true
+        //  */
+        // shiftKeyRotate?: boolean;
 
-        /**
-         * 是否启用指南针方向跟随
-         * @default false
-         */
-        compassBearing?: boolean;
+        // /**
+        //  * 是否启用指南针方向跟随
+        //  * @default false
+        //  */
+        // compassBearing?: boolean;
     }
 
     interface Map {
@@ -190,25 +190,25 @@ declare module "leaflet" {
          */
         rotateControl?: Control.Rotate;
 
-        /**
-         * 触摸旋转处理器
-         */
-        touchRotate: TouchRotate;
+        // /**
+        //  * 触摸旋转处理器
+        //  */
+        // touchRotate: TouchRotate;
 
-        /**
-         * 指南针方向处理器
-         */
-        compassBearing: CompassBearing;
+        // /**
+        //  * 指南针方向处理器
+        //  */
+        // compassBearing: CompassBearing;
 
-        /**
-         * 触摸手势处理器
-         */
-        touchGestures: TouchGestures;
+        // /**
+        //  * 触摸手势处理器
+        //  */
+        // touchGestures: TouchGestures;
 
-        /**
-         * Shift键旋转处理器
-         */
-        shiftKeyRotate: ShiftKeyRotate;
+        // /**
+        //  * Shift键旋转处理器
+        //  */
+        // shiftKeyRotate: ShiftKeyRotate;
 
         /**
          * 容器变化处理器
