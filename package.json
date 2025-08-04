@@ -1,6 +1,6 @@
 {
     "name": "leaflet-rotate-xiaoai",
-    "version": "0.2.18",
+    "version": "0.2.19",
     "description": "一个允许为地图瓦片添加旋转功能的传单插件。",
     "type": "module",
     "main": "dist/leaflet-rotate-xiaoai.js",
