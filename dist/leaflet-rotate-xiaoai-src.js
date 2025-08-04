@@ -1504,24 +1504,11 @@
 
                 this._arrow.style.transform = "rotate(" + bearing + "deg)";
 
+                this._link.style.backgroundColor = null;
+
                 if (bearing && this.options.closeOnZeroBearing) {
                     this._container.style.display = "block";
-                    this._link.style.backgroundColor = "orange";
                 }
-
-                // // Compass mode
-                // if (map.compassBearing.enabled()) {
-                //     this._link.style.backgroundColor = "orange";
-                // }
-
-                // // Touch mode
-                // else if (map.touchRotate.enabled()) {
-                //     this._link.style.backgroundColor = null;
-                // }
-
-                // // Locked mode
-                // else {
-                // this._link.style.backgroundColor = "grey";
                 if (0 === bearing && this.options.closeOnZeroBearing) {
                     this._container.style.display = "none";
                 }
