@@ -1,0 +1,85 @@
+{
+    "name": "leaflet-rotate-xiaoai",
+    "version": "0.2.9",
+    "description": "一个允许为地图瓦片添加旋转功能的传单插件。",
+    "type": "module",
+    "main": "dist/leaflet-rotate-xiaoai.js",
+    "browser": "dist/leaflet-rotate-xiaoai.js",
+    "module": "src/index.js",
+    "types": "types/index.d.ts",
+    "files": [
+        "dist",
+        "src",
+        "types",
+        "README.md",
+        "LICENSE",
+        "TYPESCRIPT.md"
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/leaflet-rotate-xiaoai.js",
+            "require": "./dist/leaflet-rotate-xiaoai.js",
+            "types": "./types/index.d.ts"
+        }
+    },
+    "scripts": {
+        "test": "uvu . \"(examples|src)[\\\\/].*\\.spec\\.js$\"",
+        "build": "npm run clean && rollup -c build/rollup.config.js && npm run build:types",
+        "build:types": "echo 'Types already exist in types/index.d.ts'",
+        "clean": "rm -rf dist",
+        "watch": "rollup -c build/rollup.config.js --watch",
+        "dev": "npm-run-all --print-label --parallel serve watch",
+        "serve": "http-server",
+        "prepublishOnly": "npm run build",
+        "version": "npm run build && git add -A dist types"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aishuaikang/leaflet-rotate-xiaoai"
+    },
+    "keywords": [
+        "leaflet",
+        "javascript",
+        "tiles",
+        "rotation",
+        "leaflet-rotate"
+    ],
+    "author": {
+        "name": "Iván Sánchez Ortega",
+        "url": "https://github.com/Leaflet/Leaflet/tree/rotate"
+    },
+    "contributors": [
+        {
+            "name": "Raruto",
+            "url": "https://github.com/Raruto/leaflet-rotate"
+        },
+        {
+            "name": "Fabien Nicollet",
+            "url": "https://github.com/fnicollet/Leaflet/tree/rotate-master"
+        },
+        {
+            "name": "Zsolt “Hyperknot” Ero",
+            "url": "https://github.com/hyperknot"
+        }
+    ],
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/Raruto/leaflet-rotate/issues"
+    },
+    "homepage": "https://github.com/Raruto/leaflet-rotate#readme",
+    "devDependencies": {
+        "@rollup/plugin-commonjs": "^24.1.0",
+        "@rollup/plugin-node-resolve": "^15.0.2",
+        "@rollup/plugin-terser": "^0.4.1",
+        "@types/leaflet": "^1.9.20",
+        "http-server": "^14.1.1",
+        "npm-run-all": "^4.1.5",
+        "playwright": "^1.32.3",
+        "rollup": "^3.20.6",
+        "typescript": "^5.9.2",
+        "uvu": "^0.5.6"
+    },
+    "peerDependencies": {
+        "leaflet": "^1.9.3"
+    }
+}
