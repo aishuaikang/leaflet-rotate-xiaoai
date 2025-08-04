@@ -491,10 +491,15 @@
 
             /** @TODO use markerProto._setPos */
             if (this._icon) {
-                if (this.options.rotationAngle && this.options.rotationOrigin) {
+                console.log(
+                    this.options.rotationAngle,
+                    this.options.rotationOrigin
+                );
+                if (this.options.rotationAngle > 0 && this.options.rotationOrigin) {
                     this._icon.style[L.DomUtil.TRANSFORM + "Origin"] =
                         this.options.rotationOrigin;
 
+                    console.log(bearing, this.options.rotationAngle, bearing);
                     bearing += this.options.rotationAngle;
 
                     // if (L.DomUtil.TRANSFORM === "msTransform") {
