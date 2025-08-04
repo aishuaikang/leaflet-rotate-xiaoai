@@ -1,26 +1,26 @@
 /**
  * @external L.DomUtil
- * 
+ *
  * @see https://github.com/Leaflet/Leaflet/tree/v1.9.3/src/dom/DomUtil.js
  */
 
 const domUtilProto = L.extend({}, L.DomUtil);
 
 L.extend(L.DomUtil, {
-
     /**
      * Resets the 3D CSS transform of `el` so it is
      * translated by `offset` pixels and optionally
      * scaled by `scale`. Does not have an effect if
      * the browser doesn't support 3D CSS transforms.
-     * 
-     * @param {HTMLElement} el 
-     * @param {L.Point} offset 
+     *
+     * @param {HTMLElement} el
+     * @param {L.Point} offset
      * @param {Number} scale
-     * @param {Number} bearing 
-     * @param {L.Point} pivot 
+     * @param {Number} bearing
+     * @param {L.Point} pivot
      */
-    setTransform: function(el, offset, scale, bearing, pivot) {
+    setTransform: function (el, offset, scale, bearing, pivot) {
+        console.log("setTransform", { el, offset, scale, bearing, pivot });
         var pos = offset || new L.Point(0, 0);
 
         if (!bearing) {
@@ -31,9 +31,16 @@ L.extend(L.DomUtil, {
         pos = pos.rotateFrom(bearing, pivot);
 
         el.style[L.DomUtil.TRANSFORM] =
-            'translate3d(' + pos.x + 'px,' + pos.y + 'px' + ',0)' +
-            (scale ? ' scale(' + scale + ')' : '') +
-            ' rotate(' + bearing + 'rad)';
+            "translate3d(" +
+            pos.x +
+            "px," +
+            pos.y +
+            "px" +
+            ",0)" +
+            (scale ? " scale(" + scale + ")" : "") +
+            " rotate(" +
+            bearing +
+            "rad)";
     },
 
     /**
@@ -41,14 +48,15 @@ L.extend(L.DomUtil, {
      * `position`, using CSS translate or top/left positioning
      * depending on the browser (used by Leaflet internally
      * to position its layers).
-     * 
-     * @param {HTMLElement} el 
-     * @param {L.Point} point 
+     *
+     * @param {HTMLElement} el
+     * @param {L.Point} point
      * @param {Number} bearing
-     * @param {L.Point} pivot 
-     * @param {Number} scale 
+     * @param {L.Point} pivot
+     * @param {Number} scale
      */
-    setPosition: function(el, point, bearing, pivot, scale) {
+    setPosition: function (el, point, bearing, pivot, scale) {
+        console.log("setPosition", { el, point, bearing, pivot, scale });
         if (!bearing) {
             return domUtilProto.setPosition.apply(this, arguments);
         }
@@ -60,8 +68,8 @@ L.extend(L.DomUtil, {
         if (L.Browser.any3d) {
             L.DomUtil.setTransform(el, point, scale, bearing, pivot);
         } else {
-            el.style.left = point.x + 'px';
-            el.style.top = point.y + 'px';
+            el.style.left = point.x + "px";
+            el.style.top = point.y + "px";
         }
     },
 
@@ -74,5 +82,4 @@ L.extend(L.DomUtil, {
      * @constant degrees = radians × 180°/π
      */
     RAD_TO_DEG: 180 / Math.PI,
-
 });

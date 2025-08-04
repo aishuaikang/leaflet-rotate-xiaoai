@@ -28,7 +28,7 @@
 // export * from './core/index';
 
 // dom
-// export * from "./dom/DomUtil";
+export * from "./dom/DomUtil";
 export * from "./dom/Draggable";
 
 // geometry
