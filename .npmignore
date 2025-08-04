@@ -1,0 +1,34 @@
+# 开发相关文件
+node_modules/
+.git/
+.vscode/
+.DS_Store
+
+# 测试和示例
+test/
+examples/
+*.spec.js
+*.test.js
+
+# 构建工具配置
+build/
+tsconfig.json
+rollup.config.js
+
+# 临时文件
+*.log
+*.tmp
+.nyc_output/
+coverage/
+
+# 开发依赖
+.eslintrc*
+.prettierrc*
+*.config.js
+.jshintrc
+.gitattributes
+_config.yml
+
+# 发布脚本
+publish.sh
+PUBLISH.md
