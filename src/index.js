@@ -42,8 +42,8 @@ export * from "./geo/LatLngBounds";
 export * from "./layer/DivOverlay";
 export * from "./layer/Popup";
 export * from "./layer/Tooltip";
-// export * from "./layer/marker/Icon";
-// export * from "./layer/marker/Marker";
+export * from "./layer/marker/Icon";
+export * from "./layer/marker/Marker";
 export * from "./layer/tile/GridLayer";
 export * from "./layer/vector/Renderer";
 
@@ -54,7 +54,7 @@ export * from "./map/handler/ContainerMutation";
 // export * from "./map/handler/TouchGestures";
 // export * from './map/handler/TouchRotate';
 // export * from "./map/handler/ShiftKeyRotate";
-// export * from "./map/handler/TouchZoom";
+export * from "./map/handler/TouchZoom";
 
 // custom controls
 export * from "./control/Rotate";
