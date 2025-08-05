@@ -441,6 +441,11 @@
     };
 
     L.Marker.include({
+        _initIcon: function (options) {
+            markerProto._initIcon.apply(this, arguments);
+            // 设置marker的占有
+            if (!this.own) this.own = "Rotate";
+        },
         /**
          * Update L.Marker anchor position after the map
          * is moved by calling `map.setBearing(theta)`
@@ -489,16 +494,20 @@
 
             /** @TODO use markerProto._setPos */
             if (this._icon) {
-                console.log(this);
-                if (this.options.rotationAngle > 0 && this.options.rotationOrigin) {
-                    this._icon.style[L.DomUtil.TRANSFORM + "Origin"] =
-                        this.options.rotationOrigin;
+                if (this.own !== "Rotate") {
+                    if (
+                        this.options.rotationAngle > 0 &&
+                        this.options.rotationOrigin
+                    ) {
+                        this._icon.style[L.DomUtil.TRANSFORM + "Origin"] =
+                            this.options.rotationOrigin;
 
-                    const rotationAngleBearing =
-                        L.Util.wrapNum(this.options.rotationAngle, [0, 360]) *
-                        L.DomUtil.DEG_TO_RAD;
+                        const rotationAngleBearing =
+                            L.Util.wrapNum(this.options.rotationAngle, [0, 360]) *
+                            L.DomUtil.DEG_TO_RAD;
 
-                    bearing += rotationAngleBearing * 2;
+                        bearing += rotationAngleBearing * 2;
+                    }
                 }
 
                 L.DomUtil.setPosition(
