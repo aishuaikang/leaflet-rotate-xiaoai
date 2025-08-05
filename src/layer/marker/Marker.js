@@ -168,7 +168,7 @@ L.Marker.include({
         this._zIndex = pos.y + this.options.zIndexOffset;
 
         this._resetZIndex();
-        this._applyRotation && this._applyRotation();
+        // this._applyRotation && this._applyRotation();
     },
 
     // _updateZIndex: function(offset) {
