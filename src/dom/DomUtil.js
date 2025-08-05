@@ -24,7 +24,7 @@ L.extend(L.DomUtil, {
 
         if (!bearing) {
             offset = pos._round();
-            // return domUtilProto.setTransform.apply(this, arguments);
+            return domUtilProto.setTransform.apply(this, arguments);
         }
 
         pos = pos.rotateFrom(bearing, pivot);
