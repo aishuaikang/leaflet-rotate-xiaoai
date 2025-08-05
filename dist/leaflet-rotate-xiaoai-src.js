@@ -25,7 +25,6 @@
          * @param {L.Point} pivot
          */
         setTransform: function (el, offset, scale, bearing, pivot) {
-            console.log("setTransform", { el, offset, scale, bearing, pivot });
             var pos = offset || new L.Point(0, 0);
 
             if (!bearing) {
@@ -61,7 +60,6 @@
          * @param {Number} scale
          */
         setPosition: function (el, point, bearing, pivot, scale) {
-            console.log("setPosition", { el, point, bearing, pivot, scale });
             if (!bearing) {
                 return domUtilProto.setPosition.apply(this, arguments);
             }
@@ -491,6 +489,7 @@
 
             /** @TODO use markerProto._setPos */
             if (this._icon) {
+                console.log(this);
                 if (this.options.rotationAngle > 0 && this.options.rotationOrigin) {
                     this._icon.style[L.DomUtil.TRANSFORM + "Origin"] =
                         this.options.rotationOrigin;
